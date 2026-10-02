@@ -1,10 +1,19 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import React, { useState } from "react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+
+  // Wishlist
+  const wishlistItems = useAppSelector((state) => state.wishlist.items);
 
   // Static dummy categories
   const categories = [
@@ -65,9 +74,9 @@ export default function Header() {
           {/* User Actions */}
           <div className="flex items-center gap-5">
             {/* Wishlist */}
-            <a
-              href="#"
-              className="hidden sm:block text-slate-600 hover:text-slate-900 transition"
+            <Link
+              href="/wishlist"
+              className="hidden relative sm:block text-slate-600 hover:text-slate-900 transition"
             >
               <svg
                 className="w-6 h-6"
@@ -82,11 +91,14 @@ export default function Header() {
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
-            </a>
+              <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {wishlistItems?.length || 0}
+              </span>
+            </Link>
 
             {/* Cart Icon with Badge */}
-            <a
-              href="#"
+            <Link
+              href="/cart"
               className="relative text-slate-600 hover:text-slate-900 transition"
             >
               <svg
@@ -103,13 +115,13 @@ export default function Header() {
                 />
               </svg>
               <span className="absolute -top-1.5 -right-2 bg-amber-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                3
+                {totalQuantity}
               </span>
-            </a>
+            </Link>
 
             {/* Profile */}
-            <a
-              href="#"
+            <Link
+              href="/profile"
               className="hidden sm:block text-slate-600 hover:text-slate-900 transition"
             >
               <svg
@@ -125,7 +137,7 @@ export default function Header() {
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 />
               </svg>
-            </a>
+            </Link>
 
             {/* Mobile Menu Button */}
             <button

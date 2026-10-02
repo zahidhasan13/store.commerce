@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/product";
+import { addToCart } from "@/redux/features/cart/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { addToWishlist } from "@/redux/features/wishlist/wishlistSlice";
 
 interface ProductCardProps {
   product: Product;
@@ -17,25 +20,15 @@ export default function ProductCard({
   onAddToWishlist,
 }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const dispatch = useAppDispatch();
 
   // Discounted price calculation
   const originalPrice = product.price;
   const discountAmount = (originalPrice * product.discountPercentage) / 100;
   const discountedPrice = (originalPrice - discountAmount).toFixed(2);
 
-  const handleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsWishlisted(!isWishlisted);
-    if (onAddToWishlist) {
-      onAddToWishlist(product);
-    }
-  };
-
-  const handleCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (onAddToCart) {
-      onAddToCart(product);
-    }
+  const handleWishlist = () => {
+    dispatch(addToWishlist(product));
   };
 
   return (
@@ -129,7 +122,7 @@ export default function ProductCard({
 
             {/* Cart Button */}
             <button
-              onClick={handleCart}
+              onClick={() => dispatch(addToCart(product))}
               className="px-3.5 py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-900 text-white text-xs font-bold rounded-xl transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95"
             >
               <svg
