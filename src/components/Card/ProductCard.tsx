@@ -5,12 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { addToCart } from "@/redux/features/cart/cartSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
 import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: Product;
@@ -18,20 +19,32 @@ interface ProductCardProps {
   onAddToWishlist?: (product: Product) => void;
 }
 
-export default function ProductCard({
-  product,
-  onAddToCart,
-  onAddToWishlist,
-}: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const router = useRouter();
 
   // Discounted price calculation
   const originalPrice = product.price;
   const discountAmount = (originalPrice * product.discountPercentage) / 100;
   const discountedPrice = (originalPrice - discountAmount).toFixed(2);
 
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+
+    dispatch(addToCart(product));
+  };
+
   const handleWishlist = () => {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+
     if (isWishlisted) {
       dispatch(removeFromWishlist(product.id));
     } else {
@@ -129,7 +142,7 @@ export default function ProductCard({
 
             {/* Cart Button */}
             <button
-              onClick={() => dispatch(addToCart(product))}
+              onClick={handleAddToCart}
               className="px-3.5 py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-900 text-white text-xs font-bold rounded-xl transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95"
             >
               <svg
