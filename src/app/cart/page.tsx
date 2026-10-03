@@ -2,13 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Trash2 } from "lucide-react";
 import CartItem from "@/components/Cart/CartItem";
 import CartSummary from "@/components/Cart/CartSummary";
 import {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
+  clearCart,
 } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -62,13 +63,25 @@ export default function CartPage() {
           </p>
         </div>
 
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-amber-600 transition-colors"
-        >
-          <ArrowLeft size={16} />
-          <span>Continue Shopping</span>
-        </Link>
+        <div className="flex items-center gap-4">
+          {cartItems.length > 0 && (
+            <button
+              onClick={() => dispatch(clearCart())}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-1.5 rounded-xl transition-colors"
+            >
+              <Trash2 size={16} />
+              <span>Clear All</span>
+            </button>
+          )}
+
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-amber-600 transition-colors"
+          >
+            <ArrowLeft size={16} />
+            <span>Continue Shopping</span>
+          </Link>
+        </div>
       </div>
 
       {/* Empty State */}

@@ -6,7 +6,11 @@ import Link from "next/link";
 import { Product } from "@/types/product";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { addToWishlist } from "@/redux/features/wishlist/wishlistSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
+import { Heart } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
@@ -28,14 +32,22 @@ export default function ProductCard({
   const discountedPrice = (originalPrice - discountAmount).toFixed(2);
 
   const handleWishlist = () => {
-    dispatch(addToWishlist(product));
+    if (isWishlisted) {
+      dispatch(removeFromWishlist(product.id));
+    } else {
+      dispatch(addToWishlist(product));
+    }
+    setIsWishlisted(!isWishlisted);
   };
 
   return (
     <div className="group relative bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Product Image Container */}
       <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
-        <Link href={`/product/${product.id}`} className="block w-full h-full">
+        <Link
+          href={`/product/${product.id}`}
+          className="relative block w-full h-full"
+        >
           <Image
             src={product.thumbnail}
             alt={product.title}
@@ -55,22 +67,17 @@ export default function ProductCard({
         {/* Wishlist Button */}
         <button
           onClick={handleWishlist}
-          className="absolute top-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 hover:text-rose-500 hover:bg-white transition-all shadow-sm z-10"
-          aria-label="Add to Wishlist"
+          className="absolute top-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center transition-all shadow-sm z-10 active:scale-90 hover:bg-white"
+          aria-label={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
         >
-          <svg
-            className="w-5 h-5"
-            fill={isWishlisted ? "currentColor" : "none"}
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.8}
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
+          <Heart
+            size={18}
+            className={`transition-colors duration-200 ${
+              isWishlisted
+                ? "fill-rose-500 text-rose-500"
+                : "text-slate-600 hover:text-rose-500"
+            }`}
+          />
         </button>
       </div>
 

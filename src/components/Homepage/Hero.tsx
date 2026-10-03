@@ -39,7 +39,7 @@ export default function HeroSection() {
 
   return (
     <section className="hero-section">
-      <div className="hero-container">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="hero-slider-wrapper relative">
           <Swiper
             modules={[Autoplay, Pagination]}

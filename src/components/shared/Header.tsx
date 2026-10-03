@@ -37,12 +37,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-2xl font-black tracking-tight text-slate-900"
             >
               STORE<span className="text-amber-500">.</span>
-            </a>
+            </Link>
           </div>
 
           {/* Search Bar */}
@@ -178,7 +178,7 @@ export default function Header() {
           {categories.map((cat) => (
             <Link
               key={cat.slug}
-              href={`/${cat.slug}`}
+              href={`/categories/${cat.slug}`}
               className="hover:text-slate-900 transition"
             >
               {cat.name}
