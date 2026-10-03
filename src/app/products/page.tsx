@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   fetchProducts,
   searchProducts,
+  fetchProductsByCategory,
 } from "@/redux/features/products/productSlice";
 import ProductCard from "@/components/Card/ProductCard";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";

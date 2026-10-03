@@ -1,7 +1,7 @@
 import CategoryGrid from "@/components/Homepage/allCategories";
 import FeatureStrip from "@/components/Homepage/FeatureStrip";
-import FlashSaleBanner from "@/components/Homepage/FlashSaleBanner";
 import HeroSection from "@/components/Homepage/Hero";
+import TrendingProducts from "@/components/Homepage/TrendingProducts";
 import Image from "next/image";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
       <HeroSection />
       <FeatureStrip />
       <CategoryGrid />
+      <TrendingProducts />
     </>
   );
 }

@@ -1,4 +1,5 @@
-import SingleProductPage from "@/components/SingleProductPage";
+import RelatedProducts from "@/components/Product/RelatedProducts";
+import SingleProductPage from "@/components/Product/SingleProductPage";
 import { Product } from "@/types/product";
 
 interface ProductPageProps {
@@ -24,5 +25,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const product: Product = await response.json();
 
-  return <SingleProductPage product={product} />;
+  return (
+    <>
+      <SingleProductPage product={product} />;
+      <RelatedProducts product={product} />
+    </>
+  );
 }

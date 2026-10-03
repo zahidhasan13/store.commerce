@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProductState {
   products: Product[];
+  categoryProducts: Record<string, Product[]>;
   loading: boolean;
   error: string | null;
   searchQuery: string;
@@ -36,9 +37,30 @@ export const searchProducts = createAsyncThunk(
     return data.products as Product[];
   },
 );
+// Category
+export const fetchProductsByCategory = createAsyncThunk(
+  "products/fetchProductsByCategory",
+  async (category: string) => {
+    const response = await fetch(
+      `https://dummyjson.com/products/category/${category}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch category products");
+    }
+
+    const data = await response.json();
+
+    return {
+      category,
+      products: data.products as Product[],
+    };
+  },
+);
 // InitialState
 const initialState: ProductState = {
   products: [],
+  categoryProducts: {},
   loading: true,
   error: null,
   searchQuery: "",
@@ -85,6 +107,20 @@ const productSlice = createSlice({
       .addCase(searchProducts.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to search products";
+      })
+      .addCase(fetchProductsByCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.categoryProducts[action.payload.category] =
+          action.payload.products;
+      })
+      .addCase(fetchProductsByCategory.rejected, (state) => {
+        state.loading = false;
+        state.error = "Failed to fetch category products";
       });
   },
 });
