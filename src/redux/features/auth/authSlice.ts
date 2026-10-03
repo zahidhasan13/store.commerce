@@ -14,6 +14,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  initialized: boolean;
 }
 
 // Auth API Call
@@ -48,6 +49,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  initialized: false,
 };
 
 const authSlice = createSlice({
@@ -68,6 +70,10 @@ const authSlice = createSlice({
     hydrateAuth: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.initialized = true;
+    },
+    setAuthInitialized: (state) => {
+      state.initialized = true;
     },
   },
 
@@ -91,6 +97,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, hydrateAuth } = authSlice.actions;
+export const { login, logout, hydrateAuth, setAuthInitialized } =
+  authSlice.actions;
 
 export default authSlice.reducer;

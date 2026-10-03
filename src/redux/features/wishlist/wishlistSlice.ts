@@ -30,10 +30,17 @@ const wishlistSlice = createSlice({
     clearWishlist: (state) => {
       state.items = [];
     },
+    hydrateWishlist: (state, action: PayloadAction<Product[]>) => {
+      state.items = action.payload;
+    },
   },
 });
 
-export const { addToWishlist, removeFromWishlist, clearWishlist } =
-  wishlistSlice.actions;
+export const {
+  addToWishlist,
+  removeFromWishlist,
+  clearWishlist,
+  hydrateWishlist,
+} = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

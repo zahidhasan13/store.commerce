@@ -12,16 +12,22 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
 
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, initialized } = useAppSelector(
+    (state) => state.auth,
+  );
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (initialized && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [initialized, isAuthenticated, router]);
 
-  if (!isAuthenticated) {
-    return null;
+  if (!initialized || !isAuthenticated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p>Checking authentication...</p>
+      </div>
+    );
   }
 
   return <>{children}</>;
