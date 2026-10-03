@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -16,6 +16,7 @@ export default function Header() {
 
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const pathname = usePathname();
 
   // Redux state
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -66,6 +67,10 @@ export default function Header() {
       className="w-full pl-4 pr-10 py-2 text-sm border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
     />
   );
+
+  if (pathname.includes("/login")) {
+    return;
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b">

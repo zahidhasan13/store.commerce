@@ -1,8 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function Footer() {
+  const pathname = usePathname();
   const categories = [
     { name: "Beauty", href: "#" },
     { name: "Fragrances", href: "#" },
@@ -20,6 +22,10 @@ export default function Footer() {
     { name: "FAQs", href: "#" },
     { name: "Privacy Policy", href: "#" },
   ];
+
+  if (pathname.includes("/login")) {
+    return;
+  }
 
   return (
     <footer className="bg-slate-900 text-slate-300 pt-12 pb-8 border-t border-slate-800">
