@@ -2,11 +2,17 @@
 
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchProducts } from "@/redux/features/products/productSlice";
+import {
+  fetchProducts,
+  searchProducts,
+} from "@/redux/features/products/productSlice";
 import ProductCard from "@/components/Card/ProductCard";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
   const dispatch = useAppDispatch();
 
   const { products, loading, error } = useAppSelector(
@@ -14,8 +20,12 @@ export default function ProductsPage() {
   );
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (search) {
+      dispatch(searchProducts(search));
+    } else {
+      dispatch(fetchProducts());
+    }
+  }, [search, dispatch]);
 
   return (
     <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">

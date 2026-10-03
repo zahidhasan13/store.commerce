@@ -7,7 +7,35 @@ export interface Product {
   discountPercentage: number;
   rating: number;
   stock: number;
-  brand?: string;
-  thumbnail: string;
+  tags: string[];
+  brand: string;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  reviews: Review[];
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  meta: {
+    createdAt: string;
+    updatedAt: string;
+    barcode: string;
+    qrCode: string;
+  };
   images: string[];
+  thumbnail: string;
+}
+
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
 }

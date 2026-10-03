@@ -145,7 +145,7 @@ export default function CategoriesPage() {
               return (
                 <Link
                   key={cat.slug}
-                  href={`/category/${cat.slug}`}
+                  href={`/categories/${cat.slug}`}
                   className="group relative bg-white border border-slate-200/80 rounded-2xl p-5 hover:border-amber-400 hover:shadow-xl hover:shadow-amber-500/5 transition-all duration-300 flex items-center justify-between overflow-hidden"
                 >
                   <div className="flex items-center gap-4">

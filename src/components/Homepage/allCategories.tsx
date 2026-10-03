@@ -123,7 +123,7 @@ export default function CategoryGrid() {
             return (
               <Link
                 key={cat.slug}
-                href={`/category/${cat.slug}`}
+                href={`/categories/${cat.slug}`}
                 className="group flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200/80 rounded-2xl hover:border-amber-400 hover:bg-amber-50/50 hover:shadow-md transition-all duration-300 text-center"
               >
                 <div className="w-12 h-12 rounded-xl bg-white text-slate-700 group-hover:bg-amber-500 group-hover:text-slate-900 flex items-center justify-center transition-colors shadow-sm mb-3">

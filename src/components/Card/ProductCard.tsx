@@ -45,7 +45,7 @@ export default function ProductCard({
       {/* Product Image Container */}
       <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
         <Link
-          href={`/product/${product.id}`}
+          href={`/products/${product.id}`}
           className="relative block w-full h-full"
         >
           <Image
