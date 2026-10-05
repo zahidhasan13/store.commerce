@@ -13,6 +13,7 @@ import {
 } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import ProtectedRoute from "@/components/Auth/ProtectedRoute";
+import { toast } from "sonner";
 
 export default function CartPage() {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ export default function CartPage() {
 
   const handleRemove = (id: number) => {
     dispatch(removeFromCart(id));
+    toast.error("Removed item from cart");
   };
 
   const rawSubtotal = cartItems.reduce(

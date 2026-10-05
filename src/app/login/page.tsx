@@ -41,8 +41,11 @@ export default function LoginPage() {
 
     if (loginUser.fulfilled.match(result)) {
       localStorage.setItem("user", JSON.stringify(result.payload));
+      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
 
-      router.push("/");
+      localStorage.removeItem("redirectAfterLogin");
+
+      router.push(redirectPath);
     }
   };
 

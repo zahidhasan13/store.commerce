@@ -13,6 +13,7 @@ import {
 } from "@/redux/features/wishlist/wishlistSlice";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import ProtectedRoute from "@/components/Auth/ProtectedRoute";
+import { toast } from "sonner";
 
 export default function WishlistPage() {
   const dispatch = useAppDispatch();
@@ -21,10 +22,12 @@ export default function WishlistPage() {
 
   const handleRemove = (id: number) => {
     dispatch(removeFromWishlist(id));
+    toast.error("Removed item from wishlist");
   };
 
   const handleClearAll = () => {
     dispatch(clearWishlist());
+    toast.error("Removed all items from wishlist");
   };
 
   return (

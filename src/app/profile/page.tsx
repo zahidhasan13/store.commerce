@@ -54,13 +54,20 @@ export default function ProfilePage() {
   const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
 
   const handleLogout = () => {
+    // Tell ProtectedRoute this is a manual logout
+    sessionStorage.setItem("manualLogout", "true");
+
+    // Remove old redirect
+    localStorage.removeItem("redirectAfterLogin");
+
+    // Logout
     dispatch(logout());
 
+    // Remove user
     localStorage.removeItem("user");
 
     router.push("/login");
   };
-
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-slate-50/50 py-10">

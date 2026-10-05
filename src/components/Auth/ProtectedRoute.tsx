@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useAppSelector } from "@/redux/hooks";
 
@@ -11,23 +11,33 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
-  const { isAuthenticated, initialized } = useAppSelector(
-    (state) => state.auth,
-  );
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (initialized && !isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [initialized, isAuthenticated, router]);
+    if (!isAuthenticated) {
+      const manualLogout = sessionStorage.getItem("manualLogout");
 
-  if (!initialized || !isAuthenticated) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Checking authentication...</p>
-      </div>
-    );
+      // User manually logged out
+      if (manualLogout === "true") {
+        sessionStorage.removeItem("manualLogout");
+        localStorage.removeItem("redirectAfterLogin");
+
+        router.push("/login");
+        return;
+      }
+
+      // User tried to access protected route
+      // while logged out
+      localStorage.setItem("redirectAfterLogin", pathname);
+
+      router.push("/login");
+    }
+  }, [isAuthenticated, pathname, router]);
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return <>{children}</>;

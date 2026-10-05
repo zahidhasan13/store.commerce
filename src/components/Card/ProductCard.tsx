@@ -12,6 +12,7 @@ import {
 } from "@/redux/features/wishlist/wishlistSlice";
 import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -37,6 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
 
     dispatch(addToCart(product));
+    toast.success("Added to cart successfully!");
   };
 
   const handleWishlist = () => {
@@ -49,6 +51,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       dispatch(removeFromWishlist(product.id));
     } else {
       dispatch(addToWishlist(product));
+      toast.success("Added to wishlist successfully!");
     }
     setIsWishlisted(!isWishlisted);
   };
