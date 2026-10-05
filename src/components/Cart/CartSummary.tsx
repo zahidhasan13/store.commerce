@@ -1,15 +1,8 @@
 "use client";
 
-import React from "react";
+import { CartSummaryProps } from "@/types/cart";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-
-interface CartSummaryProps {
-  subtotal: number;
-  shippingCost: number;
-  discountAmount: number;
-  total: number;
-  itemCount: number;
-}
+import { useRouter } from "next/navigation";
 
 export default function CartSummary({
   subtotal,
@@ -18,6 +11,7 @@ export default function CartSummary({
   total,
   itemCount,
 }: CartSummaryProps) {
+  const router = useRouter();
   return (
     <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm sticky top-24 space-y-6">
       <h2 className="text-xl font-extrabold text-slate-900 border-b border-slate-100 pb-4">
@@ -62,6 +56,7 @@ export default function CartSummary({
 
       {/* Checkout Button */}
       <button
+        onClick={() => router.push("/checkout")}
         type="button"
         className="w-full py-3.5 bg-slate-900 hover:bg-amber-500 hover:text-slate-900 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md active:scale-[0.99]"
       >

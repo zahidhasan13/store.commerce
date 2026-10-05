@@ -69,9 +69,10 @@ export default function HeroSection() {
                     alt={slide.imageAlt}
                     fill
                     priority={index === 0}
-                    quality={90}
+                    quality={75}
                     sizes="100vw"
                     className="hero-image"
+                    loading="eager"
                   />
                 </div>
               </SwiperSlide>
